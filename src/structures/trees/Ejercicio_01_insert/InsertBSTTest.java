@@ -1,8 +1,9 @@
-package structures.trees;
+package structures.trees.Ejercicio_01_insert;
 
 import structures.node.Node;
+import structures.trees.BinaryTree;
 
-public class Ejercicio1 {
+public class InsertBSTTest{
     public void insert(int[] numeros) {
         BinaryTree<Integer> arbol = new BinaryTree<>();
 
