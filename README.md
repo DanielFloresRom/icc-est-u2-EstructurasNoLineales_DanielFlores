@@ -1,106 +1,192 @@
-# PROYECTO: ESTRUCTURAS DE DATOS EN JAVA (ÁRBOLES BINARIOS)
+# Estructuras No Lineales - Árboles Binarios
 
-**Nombre:** Daniel Flores  
-**Materia:** Estructuras de Datos en Java  
-**Tema:** Árboles Binarios, recorridos, altura, peso e inversión de árboles  
+**Estudiante:** Daniel Flores  
+**Práctica:** Estructuras No Lineales  
+
 
 ---
 
-# PARTE 1: ÁRBOL BINARIO Y RECORRIDOS
+## Descripción General
 
-## Objetivo
-Implementar un árbol binario y realizar sus recorridos básicos: preorden, inorden y postorden.
+Este proyecto implementa operaciones sobre árboles binarios de búsqueda (BST) en Java. Se desarrollaron 4 ejercicios que cubren inserción, inversión, listado por niveles y cálculo de profundidad máxima de un árbol binario.
 
-## Estructura del árbol
-El árbol está compuesto por nodos enlazados, donde cada nodo contiene:
-- Valor
-- Hijo izquierdo
-- Hijo derecho
+La estructura base utilizada es `BinaryTree<T>` con nodos genéricos `Node<T>`, lo que permite trabajar con cualquier tipo de dato comparable.
 
-## Inserción (BST)
-Los elementos se insertan siguiendo la regla del árbol binario de búsqueda:
-- Valores menores → izquierda  
-- Valores mayores → derecha  
-
-## Recorridos
-
-### Preorden
-Raíz → Izquierda → Derecha  
-
-### Inorden
-Izquierda → Raíz → Derecha (devuelve ordenado en BST)
-
-### Postorden
-Izquierda → Derecha → Raíz  
-
-## Resultado
-Permite construir y recorrer correctamente un árbol binario.
-
-![Recorridos](./src/1.png)
-
-# PARTE 2: ALTURA Y PESO DEL ÁRBOL
-
-## Objetivo
-Calcular propiedades estructurales del árbol.
-
-## Altura
-La altura es el nivel máximo del árbol desde la raíz hasta una hoja.
-
-Fórmula:
-altura = max(altura izquierda, altura derecha) + 1
-
-## Peso
-El peso es la cantidad total de nodos del árbol.
-
-Fórmula:
-peso = nodos izquierda + nodos derecha + 1
-
-## Resultado
-Permite analizar el tamaño y profundidad del árbol.
-![Altura y Peso](./src/2.png)
 ---
 
-# PARTE 3: EJERCICIOS PRÁCTICOS
+## Ejercicio 01 - Inserción en BST
 
-## Ejercicio 1: Inserción y visualización
-Se insertan números en el árbol y se muestran sus recorridos.
+### Descripción
+Implementar el método `insert` que inserta un valor en un árbol binario de búsqueda respetando la regla: valores menores van a la izquierda, valores mayores o iguales van a la derecha.
 
-Ejemplo:
-int[] numeros = {5, 3, 7, 2, 4, 6, 8};
+### Método `insert`
+```java
+public void insert(T value) {
+    Node<T> node = new Node<>(value);
+    root = insertRecursivo(root, node);
+    peso++;
+}
 
-Se imprime:
-- InOrder
-- Representación visual del árbol
-![Representacion visual](./src/3.png)
+private Node<T> insertRecursivo(Node<T> actual, Node<T> nodeInsertar) {
+    if (actual == null) {
+        return nodeInsertar;
+    }
+    if (nodeInsertar.getValue().compareTo(actual.getValue()) < 0) {
+        actual.setLeft(insertRecursivo(actual.getLeft(), nodeInsertar));
+    } else {
+        actual.setRight(insertRecursivo(actual.getRight(), nodeInsertar));
+    }
+    return actual;
+}
+```
+
+### Lógica
+- Si el nodo actual es `null`, se inserta el nuevo nodo en esa posición.
+- Si el valor a insertar es menor al actual, se recurre hacia la izquierda.
+- Si es mayor o igual, se recurre hacia la derecha.
+
+### Salida de consola
+```
+----------- Ejercicio 1 (Insert BST) -----------
+Inserted: 5
+Inserted: 3
+Inserted: 7
+...
+```
+
 ---
 
-## Ejercicio 2: Inversión del árbol
+## Ejercicio 02 - Invertir Árbol
 
-## Objetivo
-Invertir el árbol binario (efecto espejo).
+### Descripción
+Implementar el método `invertTree` que invierte un árbol binario, intercambiando los hijos izquierdo y derecho de cada nodo de forma recursiva.
 
-## Lógica
-Se intercambian los hijos de cada nodo:
-izquierda ↔ derecha
+### Método `invertTree`
+```java
+public void invertTree(Node<Integer> root) {
+    invertirRec(root);
+}
 
-## Ejemplo
+private void invertirRec(Node<Integer> actual) {
+    if (actual == null) {
+        return;
+    }
+    Node<Integer> temp = actual.getLeft();
+    actual.setLeft(actual.getRight());
+    actual.setRight(temp);
 
-Antes:
+    invertirRec(actual.getLeft());
+    invertirRec(actual.getRight());
+}
+```
+
+### Lógica
+- Se recorre el árbol en preorden.
+- En cada nodo se intercambian los hijos izquierdo y derecho usando una variable temporal.
+- Se repite recursivamente para todos los nodos.
+
+### Salida de consola
+```
+----------- Ejercicio 2 (Invert Tree) -----------
+Árbol original:
+        7
     5
-   / \
-  3   7
-
-Después:
+        3
+Árbol invertido:
+        3
     5
-   / \
-  7   3
+        7
+```
 
-## Resultado
-Se imprime el árbol original y el árbol invertido usando recorrido visual.
-![Árbol invertido](./src/4.png)
 ---
 
-# CONCLUSIÓN
+## Ejercicio 03 - Listar Niveles
 
-En este proyecto pude entender mejor cómo funcionan los árboles binarios en Java y cómo se pueden representar mediante nodos y referencias, además de practicar recorridos como preorden, inorden y postorden, lo cual me ayudó a comprender cómo se procesa la información dentro de una estructura de este tipo, también aprendí a calcular la altura y el peso del árbol lo que me permitió analizar su tamaño y complejidad de forma más clara, y finalmente con la inversión del árbol reforcé la idea de recursividad y cómo se pueden modificar estructuras completas intercambiando sus nodos, en general este proyecto me ayudó a mejorar mi lógica de programación y a entender mejor el funcionamiento interno de los árboles binarios en Java
+### Descripción
+Implementar el método `listLevels` que devuelve una lista de listas, donde cada sublista contiene los nodos de un mismo nivel del árbol.
+
+### Método `listLevels`
+```java
+public List<List<Node<Integer>>> listLevels(Node<Integer> root) {
+    List<List<Node<Integer>>> resultado = new ArrayList<>();
+    if (root == null) return resultado;
+
+    Queue<Node<Integer>> cola = new LinkedList<>();
+    cola.add(root);
+
+    while (!cola.isEmpty()) {
+        int size = cola.size();
+        List<Node<Integer>> nivel = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            Node<Integer> actual = cola.poll();
+            nivel.add(actual);
+
+            if (actual.getLeft() != null)
+                cola.add(actual.getLeft());
+            if (actual.getRight() != null)
+                cola.add(actual.getRight());
+        }
+        resultado.add(nivel);
+    }
+    return resultado;
+}
+```
+
+### Lógica
+- Se usa una cola (BFS - Búsqueda por anchura).
+- En cada iteración se procesan todos los nodos del nivel actual.
+- Los hijos de cada nodo se agregan a la cola para el siguiente nivel.
+
+### Salida de consola
+```
+----------- Ejercicio 3 (List Levels) -----------
+Input:
+        4
+      2    7
+   1   3  6   9
+
+Output:
+4
+2 -> 7
+1 -> 3 -> 6 -> 9
+```
+
+---
+
+## Ejercicio 04 - Profundidad Máxima
+
+### Descripción
+Implementar el método `maxDepth` que calcula la profundidad máxima de un árbol binario, es decir, el número de nodos en el camino más largo desde la raíz hasta una hoja.
+
+### Método `maxDepth`
+```java
+public int maxDepth(Node<Integer> root) {
+    if (root == null) return 0;
+
+    int left = maxDepth(root.getLeft());
+    int right = maxDepth(root.getRight());
+
+    return Math.max(left, right) + 1;
+}
+```
+
+### Lógica
+- Caso base: si el nodo es `null`, retorna 0.
+- Se calcula recursivamente la profundidad del subárbol izquierdo y derecho.
+- Se retorna el máximo entre ambos más 1 (por el nodo actual).
+
+### Salida de consola
+```
+----------- Ejercicio 4 (Depth) -----------
+Input:
+      4
+    2    7
+  1   3
+8
+
+Output:
+4
+```
+
 ---
