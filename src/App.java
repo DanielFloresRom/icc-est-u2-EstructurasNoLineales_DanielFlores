@@ -1,3 +1,6 @@
+import collections.set.Sets;
+import java.util.Set;
+import models.Contacto;
 import models.Persona;
 import structures.node.Node;
 import structures.trees.BinaryTree;
@@ -7,10 +10,42 @@ import structures.trees.InTree;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        runIntTree();
-        runBinaryTree();
-        runEjercicio1();
-        runEjercicio2();
+        //runIntTree();
+        //runBinaryTree();
+        //runEjercicio1();
+        //runEjercicio2();
+        runSets();
+    }
+
+    private static void runSets() {
+        Sets sets = new Sets();
+        // Implementacion -> HashSet hashcode
+        System.out.println("--------HashSet--------");
+        Set<String> hashSet = sets.construirHashSet();
+        System.out.println(hashSet);
+        System.out.println("Size= "+hashSet.size());
+        System.out.println(hashSet.contains("F"));
+
+        //Implementacion -> LinkedHashSet
+        System.out.println("--------LinkedHashSet--------");
+        Set<String> linkedHashSet = sets.construirLinkedHashSet();
+        System.out.println(linkedHashSet);
+        System.out.println("Size= "+linkedHashSet.size());
+        System.out.println(linkedHashSet.contains("F"));
+        
+        //Implementacion -> TreeSet 
+        System.out.println("--------TreeSet--------");
+        Set<String> treeSet = sets.construirTreeSet();
+        System.out.println(treeSet);
+        System.out.println("Size= "+treeSet.size());
+        System.out.println(treeSet.contains("F"));
+
+        //Implementacion -> Hash Contacto Set
+        System.out.println("--------Hash Contacto Set--------");
+        Set<Contacto> hCSet =sets.construirHashSetContacto();
+        System.out.println(hCSet);
+        System.out.println("Size= "+hCSet.size());
+
     }
 
     private static void runBinaryTree() {
