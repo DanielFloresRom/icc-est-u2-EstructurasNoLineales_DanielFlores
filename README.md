@@ -189,4 +189,6 @@ Output:
 4
 ```
 
----
+### Metodo filtrarYOrdenar
+Filtra personas por edad mínima, elimina duplicados (nombre y edad, ignorando mayúsculas) y devuelve un Set ordenado por edad descendente y nombre ascendente.
+
